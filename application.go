@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"image/gif"
+	"fmt"
 )
 
 func fetchGif(path string) *gif.GIF {
@@ -25,7 +26,12 @@ func deanimate(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func healthcheck(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Ok")
+}
+
 func main() {
 	http.HandleFunc("/deanimate", deanimate)
-	http.ListenAndServe(":7896", nil)
+	http.HandleFunc("/healthcheck", healthcheck)
+	http.ListenAndServe(":5000", nil)
 }
